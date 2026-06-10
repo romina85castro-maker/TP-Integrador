@@ -18,6 +18,19 @@ def validar_numero(numero):
     if not numero.isdigit():
         raise ValueError("Debe ingresar un número.")
 
+def validar_numero_float(numero):
+    try:
+        float(numero)
+    except ValueError:
+        raise ValueError("Debe ingresar un número.")
+
+def pais_existencia(nombre, paises):
+    nombre = normalizar_texto(nombre)
+    for pais in paises:
+        if normalizar_texto(pais["nombre"]) == nombre:
+            return True
+    return False
+
 def normalizar_texto(texto):
     texto = texto.lower()
     texto = ''.join(
@@ -76,8 +89,8 @@ def pedir_superficie():
         try:
             superficie = input("Ingrese la superficie: ").strip()
 
-            validar_numero(superficie)
-            superficie = int(superficie)
+            validar_numero_float(superficie)
+            superficie = float(superficie)
             validar_positivo(superficie)
             return superficie
         
@@ -92,17 +105,14 @@ def pedir_superficie():
                 return None
 
 def pedir_continente():
-    while True:
-        try:
-            continente = input("Ingrese el nombre del continente: ").strip().title()
-            validar_campo_vacio(continente)
-            return continente
-        
-        except ValueError as e:
-            print(f"Error: {e}")
-
-            reintentar = questionary.confirm(
-                "¿Desea intentar nuevamente?"
-            ).ask()
-            if not reintentar:
-                return None
+    return questionary.select(
+        "Seleccione un continente:",
+        choices=[
+            "África",
+            "América",
+            "Asia",
+            "Europa",
+            "Oceanía",
+            "Antártida"
+        ]
+    ).ask()

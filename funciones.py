@@ -31,20 +31,20 @@ def menu():
         ]
     ).ask()
 
-def agregar_pais(paises):
+def agregar_pais(paises): #### MIA #####
     pass
 
-def actualizar_pais(paises):
+def actualizar_pais(paises): #### ROMI #####
     pass
 
-def buscar_pais(paises):
+def buscar_pais(paises): #### MIA #####
     pass
 
-def filtrar_pais(paises):
+def filtrar_pais(paises):  #### ROMI #####
     pass
 
-def ordenar_pais(paises):
+def ordenar_pais(paises): #### MIA #####
     pass
 
-def mostrar_estadisticas(paises):
+def mostrar_estadisticas(paises):  #### ROMI #####
     pass

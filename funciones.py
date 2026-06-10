@@ -1,3 +1,4 @@
+from funciones_validaciones import *
 import csv
 import requests
 import questionary
@@ -31,8 +32,43 @@ def menu():
         ]
     ).ask()
 
+
 def agregar_pais(paises): #### MIA #####
     pass
+
+encabezados = ["nombre", "poblacion", "superficie", "continente"]
+def agregar_pais(paises):
+    nombre = pedir_nombre_pais()
+    if nombre is None:
+        return
+    
+    if pais_existencia(nombre, paises):
+        print("Ese país ya está cargado.")
+        return
+    
+    poblacion = pedir_poblacion()
+    if poblacion is None:
+        return
+    
+    superficie = pedir_superficie()
+    if superficie is None:
+        return
+    
+    continente = pedir_continente()
+    pais = {
+        "nombre": nombre,
+        "poblacion": poblacion,
+        "superficie": superficie,
+        "continente": continente
+    }
+    paises.append(pais)
+
+    with open("paises.csv", "w", encoding="utf-8", newline="") as archivo:
+        escritor = csv.DictWriter(archivo, fieldnames=encabezados)
+        escritor.writeheader()
+        for pais in paises:
+            escritor.writerow(pais)
+
 
 def actualizar_pais(paises): #### ROMI #####
     pass

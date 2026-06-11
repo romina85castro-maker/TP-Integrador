@@ -70,13 +70,93 @@ def agregar_pais(paises):
             escritor.writerow(pais)
 
 
-def actualizar_pais(paises): #### ROMI #####
-    pass
+def menu_actualizar_pais(): #### ROMI #####    
+
+    print("""
+==========================================
+     M E N Ú ACTUALIZACION DE DATOS
+==========================================""")
+    return questionary.select(
+        "Seleccione una opción:",
+        choices=[
+            "1 - Actualizar Poblacion de un País.",
+            "2 - Actualizar Superficie de un Pais.",
+            "3 - Actualizar Poblacion y Superficie de un País.",
+            "4 - Salir."
+        ]
+    ).ask()
+
+def actualizar_pais(paises):
+
+    opcion= menu_actualizar_pais()
+    opcion = int(opcion[0])
+    
+    if opcion == 1:
+        
+        nombre_pais = pedir_nombre_pais()
+
+        if pais_existencia(nombre_pais, paises):
+
+            posicion = posicion_pais (paises, nombre_pais)
+
+            nueva_poblacion = pedir_poblacion()
+
+            paises [posicion - 1]["poblacion"] = nueva_poblacion
+            
+            print("La poblacion se actualizo CORRECTAMENTE.")
+
+        else:
+            print("El Pais ingresado NO EXISTE")
+    
+
+    elif opcion == 2:
+        
+        nombre_pais = pedir_nombre_pais()
+
+        if pais_existencia(nombre_pais, paises):
+
+            posicion = posicion_pais (paises, nombre_pais)
+
+            nueva_superficie = pedir_superficie()
+
+            paises [posicion - 1]["superficie"] = nueva_superficie
+            
+            print("La superficie se actualizo CORRECTAMENTE.")
+
+        else:
+            print("El Pais ingresado NO EXISTE")
+
+        
+    elif opcion== 3:
+
+        nombre_pais = pedir_nombre_pais()
+
+        if pais_existencia(nombre_pais, paises):
+
+            posicion = posicion_pais (paises, nombre_pais)
+
+            nueva_poblacion = pedir_poblacion()
+            nueva_superficie = pedir_superficie()
+
+            paises [posicion - 1]["poblacion"] = nueva_poblacion
+            paises [posicion - 1]["superficie"] = nueva_superficie
+            
+            print("La Poblacion y la Superficie se actualizo CORRECTAMENTE.")
+
+        else:
+            print("El Pais ingresado NO EXISTE")
+
+    else:
+        print(" Ha salido del Menu de Actualizacion de Poblacion y Superficie. GRACIAS")
+
+
 
 def buscar_pais(paises): #### MIA #####
     pass
 
 def filtrar_pais(paises):  #### ROMI #####
+
+    
     pass
 
 def ordenar_pais(paises): #### MIA #####

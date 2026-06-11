@@ -53,6 +53,7 @@ def pedir_nombre_pais():
         try:
             pais = input("Ingrese el nombre del país: ").strip().title()
             validar_campo_vacio(pais)
+            pais = normalizar_texto(pais)
             return pais
         
         except ValueError as e:
@@ -116,3 +117,25 @@ def pedir_continente():
             "Antártida"
         ]
     ).ask()
+
+
+
+def posicion_pais (paises, poblacion_pais):
+    contador = 0
+
+    for pais in paises:
+        contador += 1
+        if pais["nombre"] == poblacion_pais.lower():
+            print ("PAIS ENCONTRADO ", pais["nombre"]," tiene ", pais["poblacion"], " poblacion.")
+            return contador
+        
+    return 0    
+
+
+
+
+
+
+
+
+

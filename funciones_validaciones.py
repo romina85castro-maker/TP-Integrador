@@ -5,6 +5,12 @@ import unicodedata
 # Validaciones de entrada.
 # ------------------------------
 
+def lista_vacia(paises):
+    if not paises:
+        print("No hay paises cargados.")
+        return False
+    return True
+
 def validar_campo_vacio(texto):
     if texto == "":
         raise ValueError("No puede dejar vacíos.")
@@ -42,7 +48,7 @@ def normalizar_texto(texto):
 def busqueda_parcial(texto_buscado, texto_comparado):
     texto_buscado = normalizar_texto(texto_buscado)
     texto_comparado = normalizar_texto(texto_comparado)
-    return texto_buscado in texto_comparado
+    return texto_comparado[:len(texto_buscado)] == texto_buscado
 
 # ------------------------------
 # Validar y pedir datos.
@@ -118,8 +124,6 @@ def pedir_continente():
         ]
     ).ask()
 
-
-
 def posicion_pais (paises, poblacion_pais):
     contador = 0
 
@@ -130,12 +134,3 @@ def posicion_pais (paises, poblacion_pais):
             return contador
         
     return 0    
-
-
-
-
-
-
-
-
-

@@ -32,11 +32,8 @@ def menu():
         ]
     ).ask()
 
-
-def agregar_pais(paises): #### MIA #####
-    pass
-
 encabezados = ["nombre", "poblacion", "superficie", "continente"]
+
 def agregar_pais(paises):
     nombre = pedir_nombre_pais()
     if nombre is None:
@@ -149,14 +146,30 @@ def actualizar_pais(paises):
     else:
         print(" Ha salido del Menu de Actualizacion de Poblacion y Superficie. GRACIAS")
 
+def buscar_pais(paises):
+    if not lista_vacia(paises):
+        return
+    
+    pais_buscado = pedir_nombre_pais()
+    if pais_buscado == None:
+        return
+    
+    encontrados = []
 
-
-def buscar_pais(paises): #### MIA #####
-    pass
+    for pais in paises:
+        if busqueda_parcial(pais_buscado, pais['nombre']):
+            encontrados.append(pais)
+    if len(encontrados) == 0:
+        print("No se encontraron países.")
+    else:
+        for pais in encontrados: 
+            print(f"""
+\nPais: {pais['nombre']}
+Población: {pais['poblacion']} habitantes
+Superficie: {pais['superficie']} km2
+Continente: {pais['continente']}""")
 
 def filtrar_pais(paises):  #### ROMI #####
-
-    
     pass
 
 def ordenar_pais(paises): #### MIA #####

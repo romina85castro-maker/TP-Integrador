@@ -131,6 +131,51 @@ def posicion_pais (paises, poblacion_pais):
         
     return 0    
 
+def filtrar_continente(paises):
+    
+    titulo = 0
+    continente = pedir_continente()
+
+    for pais in paises:
+
+        if pais["continente"] == continente:
+
+            if titulo == 0:
+                print("Los paises del continente ", continente, " son:")
+                titulo = 1
+
+            print(pais["pais"])
+
+    if titulo == 0:
+        print("No hay paises cargados para ese continente:  ", continente)
+
+def filtrar_poblacion(paises):
+
+    poblacion_minima = pedir_poblacion()
+    poblacion_maxima = pedir_poblacion()
+
+    for pais in paises:
+
+        if poblacion_minima <= pais ["poblacion"] <= poblacion_maxima:
+
+            print(pais)
+
+def filtrar_superficie(paises):
+
+    superficie_minima = pedir_superficie()
+    superficie_maxima = pedir_superficie()
+
+    for pais in paises:
+
+        if superficie_minima <= pais ["superficie"] <= superficie_maxima:
+
+            print(pais)
+
+
+
+
+
+
 
 
 

@@ -50,6 +50,25 @@ def busqueda_parcial(texto_buscado, texto_comparado):
     texto_comparado = normalizar_texto(texto_comparado)
     return texto_comparado[:len(texto_buscado)] == texto_buscado
 
+def ordenamiento_burbuja(paises, criterio, orden):
+    cant_paises = len(paises)
+    if orden == "Ascendente":
+            for i in range(cant_paises):
+                for j in range(cant_paises - i - 1):
+                    if paises[j][criterio] > paises[j + 1][criterio]:
+                        aux = paises[j]
+                        paises[j] = paises[j + 1]
+                        paises[j + 1] = aux
+
+    elif orden == "Descendente":
+        for i in range(cant_paises):
+                for j in range(cant_paises - i - 1):            
+                    if paises[j][criterio] < paises[j + 1][criterio]:
+                        aux = paises[j]
+                        paises[j] = paises[j + 1]
+                        paises[j + 1] = aux
+    return paises
+
 # ------------------------------
 # Validar y pedir datos.
 # ------------------------------

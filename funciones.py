@@ -170,6 +170,7 @@ Superficie: {pais['superficie']} km2
 Continente: {pais['continente']}""")
 
 def filtrar_pais(paises):  #### ROMI #####
+
     pass
 
 def ordenar_pais(paises): #### MIA #####

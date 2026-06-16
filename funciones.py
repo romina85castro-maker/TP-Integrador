@@ -208,7 +208,31 @@ def filtrar_pais(paises):  #### ROMI #####
         
 
 def ordenar_pais(paises): #### MIA #####
-    pass
+    if not lista_vacia(paises):
+        return
+    elegir_criterio = questionary.select(
+        "Ordenar paises por: ",
+        choices= [
+            "nombre",
+            "poblacion",
+            "superficie"
+        ]
+    ).ask()
+
+    tipo_orden = questionary.select(
+        "Elija tipo de orden: ",
+        choices=[
+            "Ascendente",
+            "Descendente"
+        ]
+    ).ask()
+    paises_ordenados = ordenamiento_burbuja(paises, elegir_criterio, tipo_orden)
+    for pais in paises_ordenados:
+        print(f"""
+Pais: {pais['nombre']}
+Población: {pais['poblacion']}
+Superficie: {pais['superficie']}
+Continente: {pais['continente']}""")
 
 def mostrar_estadisticas(paises):  #### ROMI #####
 

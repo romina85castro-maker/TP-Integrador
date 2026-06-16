@@ -176,6 +176,117 @@ def filtrar_superficie(paises):
 
             print(pais)
 
+def mayor_poblacion(paises):
+    
+    mayor_poblacion = 0
+
+    for pais in paises:
+
+        if pais["poblacion"] > mayor_poblacion:
+
+            mayor_poblacion = pais["poblacion"]
+
+            pais_mayor_poblacion =  pais["pais"]   
+    
+    return pais_mayor_poblacion
+
+
+def menor_poblacion(paises):      
+
+    flag_menor_poblacion = 0
+
+    for pais in paises:
+
+        if flag_menor_poblacion == 0 or pais["poblacion"] < menor_poblacion:
+
+            flag_menor_poblacion = 1
+
+            menor_poblacion = pais["poblacion"]
+
+            pais_menor_poblacion =  pais["pais"]   
+    
+    return pais_menor_poblacion
+
+
+def promedio_poblacion(paises):
+
+    suma_poblacion = 0
+    cantidad_paises = 0
+
+    for pais in paises:
+        
+        cantidad_paises += 1
+        suma_poblacion += pais["poblacion"]
+        
+    promedio = suma_poblacion / cantidad_paises
+    
+    return promedio
+
+def promedio_superficie(paises):
+    
+    suma_superficie = 0
+    cantidad_paises = 0
+
+    for pais in paises:
+        
+        cantidad_paises += 1
+        suma_superficie += pais["superficie"]
+        
+    promedio = suma_superficie / cantidad_paises
+    
+    return promedio
+
+
+def cantidad_por_continente(paises):
+
+    cantidad_paises_africa = 0
+    cantidad_paises_america = 0
+    cantidad_paises_asia = 0
+    cantidad_paises_europa = 0
+    cantidad_paises_oceania = 0
+    cantidad_paises_antartida = 0
+
+    for pais in paises:
+        
+        if pais["continente"] == "África":
+
+            cantidad_paises_africa += 1
+        
+        elif pais["continente"] == "América":
+
+            cantidad_paises_america += 1
+        
+        elif pais["continente"] == "Asia":
+
+            cantidad_paises_asia += 1
+        
+        elif pais["continente"] == "Europa":
+
+            cantidad_paises_europa += 1
+
+        elif pais["continente"] == "Oceanía":
+
+            cantidad_paises_oceania += 1
+        
+        else:
+
+            cantidad_paises_antartida += 1
+
+
+    continentes = {
+        "África": cantidad_paises_africa,
+        "América": cantidad_paises_america,
+        "Asia": cantidad_paises_asia,
+        "Europa" : cantidad_paises_europa,
+        "Oceanía" : cantidad_paises_oceania,
+        "Antártida" : cantidad_paises_antartida
+    }
+    
+    
+    
+    
+    
+
 
 
 

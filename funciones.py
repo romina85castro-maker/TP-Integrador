@@ -169,12 +169,76 @@ Población: {pais['poblacion']} habitantes
 Superficie: {pais['superficie']} km2
 Continente: {pais['continente']}""")
 
-def filtrar_pais(paises):  #### ROMI #####
 
-    pass
+def menu_filtrar_pais(): ###ROMI####
+
+    print("""
+==========================================
+     MENÚ: FILTRAR PAISES POR: 
+==========================================""")
+    return questionary.select(
+        "Seleccione una opción:",
+        choices=[
+            "1 - CONTINENTE.",
+            "2 - RANGO DE POBLACION.",
+            "3 - RANGO DE SUPERFICIE.",
+            "4 - SALIR."
+        ]
+    ).ask()
+
+def filtrar_pais(paises):  #### ROMI #####    
+
+    opcion= menu_filtrar_pais()
+    opcion = int(opcion[0])
+
+    if opcion == 1:
+
+        filtrar_continente(paises)
+
+    elif opcion== 2:
+
+        filtrar_poblacion(paises)
+        
+    elif opcion== 3:
+        
+        filtrar_superficie(paises)
+
+    else:
+        print(" Ha salido del MENÚ FILTRAR PAISES. GRACIAS")
+        
 
 def ordenar_pais(paises): #### MIA #####
     pass
 
 def mostrar_estadisticas(paises):  #### ROMI #####
-    pass
+
+    mayor_poblacion = mayor_poblacion(paises)
+    menor_poblacion = menor_poblacion(paises)
+    promedio_poblacion = promedio_poblacion(paises)
+    promedio_superficie = promedio_superficie(paises)
+    cantidad_por_continente = cantidad_por_continente(paises)
+    
+
+    print("""
+=========================================
+    ---------ESTADISTICAS----------------
+=========================================
+""")
+    print("LA MAYOR POBLACION ESTA EN EL PAIS DE: ", mayor_poblacion)
+    print("LA MENOR POBLACION ESTA EN EL PAIS DE: ", menor_poblacion)
+    print("EL PROMEDIO DE PROBLACION A NIVEL MUNDIAR ES: ", promedio_poblacion)
+    print("EL PROMEDIO DE SUPERFICIE A NIVEL MUNDIAR ES: ", promedio_superficie)
+    
+    print("""
+=========================================
+    CANTIDAD DE PAÍSES POR CONTINENTE
+=========================================
+""")
+
+print(f"África: ", cantidad_por_continente["África"])
+print(f"América: ", cantidad_por_continente["América"])
+print(f"Asia: ", cantidad_por_continente["Asia"])
+print(f"Europa: ", cantidad_por_continente["Europa"])
+print(f"Oceanía: ", cantidad_por_continente ["Oceanía"])
+print(f"Antártida: ", cantidad_por_continente["Antártida"])
+

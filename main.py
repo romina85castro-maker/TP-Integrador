@@ -10,32 +10,7 @@ from funciones import (
     mostrar_estadisticas
 )
 
-paises = [
-    {
-        "nombre":"Argentina",
-        "poblacion": "45376763",
-        "superficie": "2780400",
-        "continente": "America"
-    },
-    {
-        "nombre":"Japon",
-        "poblacion": "125800000",
-        "superficie": "377975",
-        "continente": "Asia"
-    },
-    {
-        "nombre":"Brasil",
-        "poblacion": "213993437",
-        "superficie": "8515767",
-        "continente": "America"
-    },
-    {
-        "nombre":"Alemania",
-        "poblacion": "83149300",
-        "superficie": "357022",
-        "continente": "Europa"
-    }
-]
+paises = []
 
 if __name__ == "__main__":
 
@@ -49,19 +24,19 @@ if __name__ == "__main__":
                 agregar_pais(paises)
 
             case "2":
-                actualizar_pais(paises)
+                actualizar_pais()
 
             case "3":
                 buscar_pais(paises)
 
             case "4":
-                filtrar_pais(paises)
+                filtrar_pais()
 
             case "5":
                 ordenar_pais(paises)
 
             case "6":
-                mostrar_estadisticas(paises)
+                mostrar_estadisticas()
 
             case "7":
                 print("Saliendo del sistema... ¡Hasta pronto!")

@@ -9,11 +9,49 @@ import os
 def limpiar_pantalla():
     os.system("cls")
 
+def guardar_csv(paises):
+
+    ruta = os.path.join(os.path.dirname(__file__), "paises.csv")
+
+    with open(ruta, "w", encoding="utf-8", newline="") as archivo:
+        
+        escritor = csv.DictWriter(archivo, fieldnames=encabezados)
+        escritor.writeheader()
+        for pais in paises:
+            escritor.writerow(pais)  
+    
+def cargar_csv():
+
+    paises = []
+
+    try:
+        ruta = os.path.join(os.path.dirname(__file__), "paises.csv")
+
+        with open(ruta, "r", encoding="utf-8", newline="") as archivo:
+
+            lector = csv.DictReader(archivo)
+
+            for fila in lector:
+
+                pais = {
+                    "nombre": fila["nombre"],
+                    "poblacion": int(fila["poblacion"]),
+                    "superficie": float(fila["superficie"]),
+                    "continente": fila["continente"]
+                }
+
+                paises.append(pais)
+
+    except FileNotFoundError:
+        print("El archivo paises.csv no existe. Se comenzará con una lista vacía.")
+
+    return paises
+
 # ----------------------------------------------
 # Funciones principales de menú:
 
 def menu():
-    limpiar_pantalla()
+    ###limpiar_pantalla()
 
     print("""
 ==========================================
@@ -83,7 +121,16 @@ def menu_actualizar_pais(): #### ROMI #####
         ]
     ).ask()
 
-def actualizar_pais(paises):
+def actualizar_pais():
+
+    print("Ruta actual:", os.getcwd())
+    print("¿Existe paises.csv?", os.path.exists("paises.csv"))
+
+
+    paises = cargar_csv()
+
+    if not lista_vacia(paises):
+        return
 
     opcion= menu_actualizar_pais()
     opcion = int(opcion[0])
@@ -92,11 +139,17 @@ def actualizar_pais(paises):
         
         nombre_pais = pedir_nombre_pais()
 
+        if nombre_pais is None:
+            return
+
         if pais_existencia(nombre_pais, paises):
 
             posicion = posicion_pais (paises, nombre_pais)
 
             nueva_poblacion = pedir_poblacion()
+
+            if nueva_poblacion is None:
+                return
 
             paises [posicion - 1]["poblacion"] = nueva_poblacion
             
@@ -110,11 +163,17 @@ def actualizar_pais(paises):
         
         nombre_pais = pedir_nombre_pais()
 
+        if nombre_pais is None:
+            return
+
         if pais_existencia(nombre_pais, paises):
 
             posicion = posicion_pais (paises, nombre_pais)
 
             nueva_superficie = pedir_superficie()
+
+            if nueva_superficie is None:
+                return
 
             paises [posicion - 1]["superficie"] = nueva_superficie
             
@@ -128,12 +187,19 @@ def actualizar_pais(paises):
 
         nombre_pais = pedir_nombre_pais()
 
+        if nueva_superficie is None:
+                return
+
         if pais_existencia(nombre_pais, paises):
 
             posicion = posicion_pais (paises, nombre_pais)
 
             nueva_poblacion = pedir_poblacion()
+            if nueva_poblacion is None:
+                return
             nueva_superficie = pedir_superficie()
+            if nueva_superficie is None:
+                return
 
             paises [posicion - 1]["poblacion"] = nueva_poblacion
             paises [posicion - 1]["superficie"] = nueva_superficie
@@ -145,6 +211,8 @@ def actualizar_pais(paises):
 
     else:
         print(" Ha salido del Menu de Actualizacion de Poblacion y Superficie. GRACIAS")
+
+    guardar_csv(paises)
 
 def buscar_pais(paises):
     if not lista_vacia(paises):
@@ -186,7 +254,12 @@ def menu_filtrar_pais(): ###ROMI####
         ]
     ).ask()
 
-def filtrar_pais(paises):  #### ROMI #####    
+def filtrar_pais():  #### ROMI #####    
+
+    paises = cargar_csv()
+
+    if not lista_vacia(paises):
+        return
 
     opcion= menu_filtrar_pais()
     opcion = int(opcion[0])
@@ -234,13 +307,18 @@ Población: {pais['poblacion']}
 Superficie: {pais['superficie']}
 Continente: {pais['continente']}""")
 
-def mostrar_estadisticas(paises):  #### ROMI #####
+def mostrar_estadisticas():  #### ROMI #####
 
-    mayor_poblacion = mayor_poblacion(paises)
-    menor_poblacion = menor_poblacion(paises)
-    promedio_poblacion = promedio_poblacion(paises)
-    promedio_superficie = promedio_superficie(paises)
-    cantidad_por_continente = cantidad_por_continente(paises)
+    paises = cargar_csv()
+
+    if not lista_vacia(paises):
+        return
+
+    poblacion_mayor = mayor_poblacion(paises)
+    poblacion_menor = menor_poblacion(paises)
+    poblacion_promedio = promedio_poblacion(paises)
+    superficie_promedio = promedio_superficie(paises)
+    cantidad_x_continente = cantidad_por_continente(paises)
     
 
     print("""
@@ -248,10 +326,10 @@ def mostrar_estadisticas(paises):  #### ROMI #####
     ---------ESTADISTICAS----------------
 =========================================
 """)
-    print("LA MAYOR POBLACION ESTA EN EL PAIS DE: ", mayor_poblacion)
-    print("LA MENOR POBLACION ESTA EN EL PAIS DE: ", menor_poblacion)
-    print("EL PROMEDIO DE PROBLACION A NIVEL MUNDIAR ES: ", promedio_poblacion)
-    print("EL PROMEDIO DE SUPERFICIE A NIVEL MUNDIAR ES: ", promedio_superficie)
+    print("LA MAYOR POBLACION ESTA EN EL PAIS DE: ", poblacion_mayor)
+    print("LA MENOR POBLACION ESTA EN EL PAIS DE: ", poblacion_menor)
+    print("EL PROMEDIO DE PROBLACION A NIVEL MUNDIAR ES: ", poblacion_promedio)
+    print("EL PROMEDIO DE SUPERFICIE A NIVEL MUNDIAR ES: ", superficie_promedio)
     
     print("""
 =========================================
@@ -259,10 +337,10 @@ def mostrar_estadisticas(paises):  #### ROMI #####
 =========================================
 """)
 
-print(f"África: ", cantidad_por_continente["África"])
-print(f"América: ", cantidad_por_continente["América"])
-print(f"Asia: ", cantidad_por_continente["Asia"])
-print(f"Europa: ", cantidad_por_continente["Europa"])
-print(f"Oceanía: ", cantidad_por_continente ["Oceanía"])
-print(f"Antártida: ", cantidad_por_continente["Antártida"])
+    print(f"Africa: ", cantidad_x_continente["Africa"])
+    print(f"América: ", cantidad_x_continente["America"])
+    print(f"Asia: ", cantidad_x_continente["Asia"])
+    print(f"Europa: ", cantidad_x_continente["Europa"])
+    print(f"Oceanía: ", cantidad_x_continente ["Oceania"])
+    print(f"Antártida: ", cantidad_x_continente["Antartida"])
 

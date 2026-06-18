@@ -25,19 +25,19 @@ if __name__ == "__main__":
                 agregar_pais(paises)
 
             case "2":
-                actualizar_pais(paises)
+                actualizar_pais()
 
             case "3":
                 buscar_pais(paises)
 
             case "4":
-                filtrar_pais(paises)
+                filtrar_pais()
 
             case "5":
                 ordenar_pais(paises)
 
             case "6":
-                mostrar_estadisticas(paises)
+                mostrar_estadisticas()
 
             case "7":
                 print("Saliendo del sistema... ¡Hasta pronto!")

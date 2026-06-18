@@ -9,6 +9,36 @@ import os
 def limpiar_pantalla():
     os.system("cls")
 
+def guardar_csv(paises):
+    ruta = os.path.join(os.path.dirname(__file__), "paises.csv")
+
+    with open(ruta, "w", encoding="utf-8", newline="") as archivo:
+        escritor = csv.DictWriter(archivo, fieldnames=encabezados)
+        escritor.writeheader()
+        for pais in paises:
+            escritor.writerow(pais)  
+    
+def cargar_csv():
+    paises = []
+
+    try:
+        ruta = os.path.join(os.path.dirname(__file__), "paises.csv")
+
+        with open(ruta, "r", encoding="utf-8", newline="") as archivo:
+            lector = csv.DictReader(archivo)
+            for fila in lector:
+                pais = {
+                    "nombre": fila["nombre"],
+                    "poblacion": int(fila["poblacion"]),
+                    "superficie": float(fila["superficie"]),
+                    "continente": fila["continente"]
+                }
+                paises.append(pais)
+    except FileNotFoundError:
+        print("El archivo paises.csv no existe. Se comenzará con una lista vacía.")
+
+    return paises
+
 # ----------------------------------------------
 # Funciones principales de menú:
 
@@ -67,11 +97,10 @@ def agregar_pais(paises):
             escritor.writerow(pais)
 
 
-def menu_actualizar_pais(): #### ROMI #####    
-
+def menu_actualizar_pais():  
     print("""
 ==========================================
-     M E N Ú ACTUALIZACION DE DATOS
+            ACTUALIZACION DE DATOS
 ==========================================""")
     return questionary.select(
         "Seleccione una opción:",
@@ -84,67 +113,79 @@ def menu_actualizar_pais(): #### ROMI #####
     ).ask()
 
 def actualizar_pais(paises):
+    paises = cargar_csv()
+
+    if not lista_vacia(paises):
+        return
 
     opcion= menu_actualizar_pais()
     opcion = int(opcion[0])
     
     if opcion == 1:
-        
         nombre_pais = pedir_nombre_pais()
 
+        if nombre_pais is None:
+            return
+
         if pais_existencia(nombre_pais, paises):
-
             posicion = posicion_pais (paises, nombre_pais)
-
             nueva_poblacion = pedir_poblacion()
 
-            paises [posicion - 1]["poblacion"] = nueva_poblacion
-            
+            if nueva_poblacion is None:
+                return
+
+            paises [posicion - 1]["poblacion"] = nueva_poblacion        
             print("La poblacion se actualizo CORRECTAMENTE.")
 
         else:
             print("El Pais ingresado NO EXISTE")
-    
 
     elif opcion == 2:
-        
         nombre_pais = pedir_nombre_pais()
+
+        if nombre_pais is None:
+            return
 
         if pais_existencia(nombre_pais, paises):
 
-            posicion = posicion_pais (paises, nombre_pais)
-
+            posicion = posicion_pais(paises, nombre_pais)
             nueva_superficie = pedir_superficie()
 
+            if nueva_superficie is None:
+                return
+
             paises [posicion - 1]["superficie"] = nueva_superficie
-            
             print("La superficie se actualizo CORRECTAMENTE.")
 
         else:
             print("El Pais ingresado NO EXISTE")
-
         
     elif opcion== 3:
-
         nombre_pais = pedir_nombre_pais()
 
+        if nombre_pais is None:
+            return
+
         if pais_existencia(nombre_pais, paises):
-
             posicion = posicion_pais (paises, nombre_pais)
-
             nueva_poblacion = pedir_poblacion()
+            if nueva_poblacion is None:
+                return
+
             nueva_superficie = pedir_superficie()
+            if nueva_superficie is None:
+                return
 
             paises [posicion - 1]["poblacion"] = nueva_poblacion
             paises [posicion - 1]["superficie"] = nueva_superficie
-            
-            print("La Poblacion y la Superficie se actualizo CORRECTAMENTE.")
+            print("La Poblacion y la Superficie se actualizaron CORRECTAMENTE.")
 
         else:
             print("El Pais ingresado NO EXISTE")
 
     else:
         print(" Ha salido del Menu de Actualizacion de Poblacion y Superficie. GRACIAS")
+    guardar_csv(paises)
 
 def buscar_pais(paises):
     if not lista_vacia(paises):
@@ -169,9 +210,41 @@ Población: {pais['poblacion']} habitantes
 Superficie: {pais['superficie']} km2
 Continente: {pais['continente']}""")
 
-def filtrar_pais(paises):  #### ROMI #####
+def menu_filtrar_pais():
 
-    pass
+    print("""
+==========================================
+            FILTRAR PAISES POR: 
+==========================================""")
+    return questionary.select(
+        "Seleccione una opción:",
+        choices=[
+            "1 - CONTINENTE.",
+            "2 - RANGO DE POBLACION.",
+            "3 - RANGO DE SUPERFICIE.",
+            "4 - SALIR."
+        ]
+    ).ask()
+def filtrar_pais(paises):
+    paises = cargar_csv()
+
+    if not lista_vacia(paises):
+        return
+
+    opcion= menu_filtrar_pais()
+    opcion = int(opcion[0])
+
+    if opcion == 1:
+        filtrar_continente(paises)
+
+    elif opcion== 2:
+        filtrar_poblacion(paises)
+
+    elif opcion== 3:
+        filtrar_superficie(paises)
+
+    else:
+        print("Ha salido de FILTRAR PAISES")
 
 def ordenar_pais(paises): 
     if not lista_vacia(paises):
@@ -200,8 +273,41 @@ Población: {pais['poblacion']}
 Superficie: {pais['superficie']}
 Continente: {pais['continente']}""")
 
-def mostrar_estadisticas(paises):  #### ROMI #####
-    pass
+def mostrar_estadisticas(paises): 
+    paises = cargar_csv()
+
+    if not lista_vacia(paises):
+        return
+
+    poblacion_mayor = mayor_poblacion(paises)
+    poblacion_menor = menor_poblacion(paises)
+    poblacion_promedio = promedio_poblacion(paises)
+    superficie_promedio = promedio_superficie(paises)
+    cantidad_x_continente = cantidad_por_continente(paises)
+    
+
+    print("""
+===========================================
+                ESTADÍSTICAS
+===========================================
+""")
+    print("LA MAYOR POBLACION ESTA EN EL PAIS DE: ", poblacion_mayor)
+    print("LA MENOR POBLACION ESTA EN EL PAIS DE: ", poblacion_menor)
+    print("EL PROMEDIO DE PROBLACION A NIVEL MUNDIAR ES: ", poblacion_promedio)
+    print("EL PROMEDIO DE SUPERFICIE A NIVEL MUNDIAR ES: ", superficie_promedio)
+    
+    print("""
+=========================================
+    CANTIDAD DE PAÍSES POR CONTINENTE
+=========================================
+""")
+
+    print(f"Africa: ", cantidad_x_continente["Africa"])
+    print(f"América: ", cantidad_x_continente["America"])
+    print(f"Asia: ", cantidad_x_continente["Asia"])
+    print(f"Europa: ", cantidad_x_continente["Europa"])
+    print(f"Oceanía: ", cantidad_x_continente ["Oceania"])
+    print(f"Antártida: ", cantidad_x_continente["Antartida"])
 
 # ---------------------------------------------
 # Carga inicial de países 

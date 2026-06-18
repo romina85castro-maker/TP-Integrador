@@ -78,7 +78,6 @@ def pedir_nombre_pais():
         try:
             pais = input("Ingrese el nombre del país: ").strip().title()
             validar_campo_vacio(pais)
-            pais = normalizar_texto(pais)
             return pais
         
         except ValueError as e:
@@ -109,7 +108,7 @@ def pedir_poblacion():
 
             if not reintentar:
                 return None
-            
+
 def pedir_superficie():
     while True:
         try:
@@ -194,18 +193,3 @@ def filtrar_superficie(paises):
         if superficie_minima <= pais ["superficie"] <= superficie_maxima:
 
             print(pais)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

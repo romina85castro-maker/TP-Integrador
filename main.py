@@ -7,35 +7,11 @@ from funciones import (
     buscar_pais,
     filtrar_pais,
     ordenar_pais,
-    mostrar_estadisticas
+    mostrar_estadisticas,
+    carga_inicial_paises
 )
 
-paises = [
-    {
-        "nombre":"Argentina",
-        "poblacion": "45376763",
-        "superficie": "2780400",
-        "continente": "America"
-    },
-    {
-        "nombre":"Japon",
-        "poblacion": "125800000",
-        "superficie": "377975",
-        "continente": "Asia"
-    },
-    {
-        "nombre":"Brasil",
-        "poblacion": "213993437",
-        "superficie": "8515767",
-        "continente": "America"
-    },
-    {
-        "nombre":"Alemania",
-        "poblacion": "83149300",
-        "superficie": "357022",
-        "continente": "Europa"
-    }
-]
+paises = carga_inicial_paises()
 
 if __name__ == "__main__":
 

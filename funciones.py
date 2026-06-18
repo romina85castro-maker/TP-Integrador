@@ -173,7 +173,7 @@ def filtrar_pais(paises):  #### ROMI #####
 
     pass
 
-def ordenar_pais(paises): #### MIA #####
+def ordenar_pais(paises): 
     if not lista_vacia(paises):
         return
     elegir_criterio = questionary.select(
@@ -202,3 +202,40 @@ Continente: {pais['continente']}""")
 
 def mostrar_estadisticas(paises):  #### ROMI #####
     pass
+
+# ---------------------------------------------
+# Carga inicial de países 
+
+def carga_inicial_paises():
+    paises = []
+    nombres_paises = [
+        "argentina",
+        "japan",
+        "brazil",
+        "germany"
+    ]
+    continentes = {
+        "Africa": "África",
+        "Americas": "América",
+        "Asia": "Asia",
+        "Europe": "Europa",
+        "Oceania": "Oceanía",
+        "Antarctic": "Antártida"
+    }
+    for nombre in nombres_paises:
+        respuesta = requests.get(
+            f"https://restcountries.com/v3.1/name/{nombre}?fullText=true"
+        )
+        if respuesta.status_code == 200:
+            dato = respuesta.json()[0]
+        
+            paises.append({
+                "nombre": dato["translations"]["spa"]["common"],
+                "poblacion": str(dato["population"]),
+                "superficie": str(dato["area"]),
+                "continente": continentes.get(
+                    dato["continents"][0],
+                    dato["continents"][0]
+                )
+            })
+    return paises

@@ -1,17 +1,12 @@
 # Programa principal:
+import os
+from funciones import *
 
-from funciones import (
-    menu,
-    agregar_pais,
-    actualizar_pais,
-    buscar_pais,
-    filtrar_pais,
-    ordenar_pais,
-    mostrar_estadisticas,
-    carga_inicial_paises
-)
-
-paises = carga_inicial_paises()
+if os.path.exists("paises.csv"):
+    paises = cargar_csv()
+else:
+    paises = carga_inicial_paises()
+    guardar_csv(paises)
 
 if __name__ == "__main__":
 
@@ -25,19 +20,19 @@ if __name__ == "__main__":
                 agregar_pais(paises)
 
             case "2":
-                actualizar_pais()
+                actualizar_pais(paises)
 
             case "3":
                 buscar_pais(paises)
 
             case "4":
-                filtrar_pais()
+                filtrar_pais(paises)
 
             case "5":
                 ordenar_pais(paises)
 
             case "6":
-                mostrar_estadisticas()
+                mostrar_estadisticas(paises)
 
             case "7":
                 print("Saliendo del sistema... ¡Hasta pronto!")

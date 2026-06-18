@@ -1,16 +1,12 @@
 import questionary
 import unicodedata
 
-
 # ------------------------------
 # Validaciones de entrada.
 # ------------------------------
 
 def lista_vacia(paises):
-    if not paises:
-        print("No hay paises cargados.")
-        return False
-    return True
+    return len(paises) == 0
 
 def validar_campo_vacio(texto):
     if texto == "":
@@ -143,38 +139,29 @@ def pedir_continente():
         ]
     ).ask()
 
-def posicion_pais (paises, poblacion_pais): #### ROMI ####
-    contador = 0
+def posicion_pais (paises, nombre): #### ROMI ####
+    nombre = normalizar_texto(nombre)
 
-    for pais in paises:
-        contador += 1
-        if pais["nombre"] == poblacion_pais.title():
-            print ("PAIS ENCONTRADO ", pais["nombre"]," tiene ", pais["poblacion"], " poblacion.")
-            return contador
-        
-
-    return 0    
+    for i, pais in enumerate(paises):
+        if normalizar_texto(pais["nombre"]) == nombre:
+            return i
+    return -1
 
 def filtrar_continente(paises): #### ROMI ####
-    
     titulo = 0
     continente = pedir_continente()
 
     for pais in paises:
-
         if pais["continente"] == continente:
-
             if titulo == 0:
                 print("Los paises del continente ", continente, " son:")
                 titulo = 1
-
             print( pais["nombre"])
 
     if titulo == 0:
         print("No hay paises cargados para ese continente:  ", continente)
 
 def filtrar_poblacion(paises): #### ROMI ####
-
     print("POBLACION MINIMA")
 
     poblacion_minima = pedir_poblacion()
@@ -187,9 +174,7 @@ def filtrar_poblacion(paises): #### ROMI ####
         return
 
     for pais in paises:
-
         if poblacion_minima <= pais ["poblacion"] and pais ["poblacion"] <= poblacion_maxima:
-
             print(f"""
                     Pais: {pais['nombre']}
                     Población: {pais['poblacion']}
@@ -198,7 +183,6 @@ def filtrar_poblacion(paises): #### ROMI ####
                 """)
 
 def filtrar_superficie(paises):  #### ROMI ####
-
     print("SUPERFICIE MINIMA")
     superficie_minima = pedir_superficie()
     if superficie_minima == None:
@@ -210,7 +194,6 @@ def filtrar_superficie(paises):  #### ROMI ####
         return
 
     for pais in paises:
-
         if superficie_minima <= pais ["superficie"] <= superficie_maxima:
             print(f"""
                     Pais: {pais['nombre']}
@@ -219,69 +202,47 @@ def filtrar_superficie(paises):  #### ROMI ####
                     Continente: {pais['continente']}
                 """)
 
-def mayor_poblacion(paises): #### ROMI ####
-    
-    mayor_poblacion = 0
-
+def mayor_poblacion(paises):
+    mayor_pais = paises[0]["nombre"]
+    mayor_valor = paises[0]["poblacion"]
     for pais in paises:
-
-        if pais["poblacion"] > mayor_poblacion:
-
-            mayor_poblacion = pais["poblacion"]
-
-            pais_mayor_poblacion = pais["nombre"]   
-    
-    return pais_mayor_poblacion
-
+        if pais["poblacion"] > mayor_valor:
+            mayor_valor = pais["poblacion"]
+            mayor_pais = pais["nombre"]
+    return mayor_pais
 
 def menor_poblacion(paises):   #### ROMI ####   
-
-    flag_menor_poblacion = 0
+    menor_pais = paises[0]["nombre"]
+    menor_valor = paises[0]["poblacion"]
 
     for pais in paises:
-
-        if flag_menor_poblacion == 0 or pais["poblacion"] < menor_poblacion:
-
-            flag_menor_poblacion = 1
-
-            menor_poblacion = pais["poblacion"]
-
-            pais_menor_poblacion =  pais["nombre"]   
-    
-    return pais_menor_poblacion
-
+        if pais["poblacion"] < menor_valor:
+            menor_valor = pais["poblacion"]
+            menor_pais = pais["nombre"]
+    return menor_pais
 
 def promedio_poblacion(paises): #### ROMI ####
-
     suma_poblacion = 0
     cantidad_paises = 0
-
     for pais in paises:
-        
         cantidad_paises += 1
         suma_poblacion += pais["poblacion"]
         
     promedio = suma_poblacion / cantidad_paises
-    
     return promedio
 
 def promedio_superficie(paises): #### ROMI ####
-    
     suma_superficie = 0
     cantidad_paises = 0
 
     for pais in paises:
-        
         cantidad_paises += 1
         suma_superficie += pais["superficie"]
         
     promedio = suma_superficie / cantidad_paises
-    
     return promedio
 
-
 def cantidad_por_continente(paises): #### ROMI ####
-
     cantidad_paises_africa = 0
     cantidad_paises_america = 0
     cantidad_paises_asia = 0
@@ -290,57 +251,30 @@ def cantidad_por_continente(paises): #### ROMI ####
     cantidad_paises_antartida = 0
 
     for pais in paises:
-        
         if pais["continente"] == "África":
-
             cantidad_paises_africa += 1
         
         elif pais["continente"] == "América":
-
             cantidad_paises_america += 1
         
         elif pais["continente"] == "Asia":
-
             cantidad_paises_asia += 1
         
         elif pais["continente"] == "Europa":
-
             cantidad_paises_europa += 1
 
         elif pais["continente"] == "Oceanía":
-
             cantidad_paises_oceania += 1
         
-        else:
-
+        elif pais["continente"] == "Antártida":
             cantidad_paises_antartida += 1
 
-
     continentes = {
-        "Africa": cantidad_paises_africa,
-        "America": cantidad_paises_america,
+        "África": cantidad_paises_africa,
+        "América": cantidad_paises_america,
         "Asia": cantidad_paises_asia,
         "Europa" : cantidad_paises_europa,
-        "Oceania" : cantidad_paises_oceania,
-        "Antartida" : cantidad_paises_antartida
+        "Oceanía" : cantidad_paises_oceania,
+        "Antártida" : cantidad_paises_antartida
     }
-    
     return continentes
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 2ca9ae47b9a4a06264f693b3877f627ca891d403
